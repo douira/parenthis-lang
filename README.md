@@ -1,6 +1,7 @@
 # The SUL Language
 
-SUL is an esoteric programming language, this project is the interpreter for it.
+SUL is an esoteric programming language, this project is the interpreter for it. Version 1 was badly written and is not public. 
+Currently the most up-to-date interpreter of SUL V2 is written in JavaScript and resides in [this KhanAcademy project](https://www.khanacademy.org/computer-programming/sul-v2-an-esoteric-programming-language/4555641989431296). This uses Processing.js. The formatted code can also be found in `old.js`. This project aims to create a third version (V3) that has a better JavaScript API and coding style.
 
 I've written about SUL on the Esolang wiki [here](https://esolangs.org/wiki/SUL). This is an adaptation of that documentation.
 
@@ -92,10 +93,6 @@ Order of calling is not always guaranteed! i.e. Arguments for a function may not
 Function names are part of the syntax, because they can't be created from inside the code and are (mostly) fixed for the whole program.
 
 Functions tagged with <code>OK</code> in the sul packages are tested and most likely to work, though maybe not exactly as expected... ;-P
-
-### Implementation
-
-Currently the most up-to-date interpreter of SUL is written in JavaScript and resides in this KhanAcademy project: [https://www.khanacademy.org/computer-programming/sul-v2-an-esoteric-programming-language/4555641989431296] Hopefully I'll get around to putting this somewhere better sometime.
 
 ### Examples
 

@@ -52,6 +52,7 @@
     "mdi",
     "munol",
     "muns",
+    "nand",
     "nbsp",
     "nuxt",
     "nuxtjs",
@@ -66,6 +67,7 @@
     "rgba",
     "roboto",
     "samp",
+    "singnum",
     "socketio",
     "sonarjs",
     "styl",
@@ -81,6 +83,7 @@
     "uuidv",
     "vuedraggable",
     "vuex",
-    "wifi"
+    "wifi",
+    "xnor"
   ]
 }

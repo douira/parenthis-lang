@@ -14,9 +14,9 @@ module.exports = {
     "plugin:import/recommended",
     //"plugin:jest/recommended",
     "plugin:promise/recommended",
-    "plugin:vue/recommended",
+    //"plugin:vue/recommended",
     "eslint:recommended",
-    "prettier/vue",
+    //"prettier/vue",
     "plugin:prettier/recommended"
   ],
   rules: {
