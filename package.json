@@ -1,0 +1,31 @@
+{
+  "name": "nuxt-spa-template",
+  "version": "1.0.0",
+  "description": "This is a template for a simple Nuxt.js project using Vuetify or general JS projects",
+  "author": "douira",
+  "private": false,
+  "license": "MIT",
+  "engines": {
+    "node": ">=12.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/douira/nuxt-spa-template.git"
+  },
+  "scripts": {
+    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
+    "format-all": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+    "precommit": "npm run format-all"
+  },
+  "devDependencies": {
+    "babel-eslint": "^10.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-prettier": "^6.11.0",
+    "eslint-plugin-import": "^2.22.0",
+    "eslint-plugin-jest": "^23.20.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "eslint-plugin-promise": "^4.2.1",
+    "eslint-plugin-sonarjs": "^0.5.0",
+    "prettier": "^1.19.1"
+  }
+}
