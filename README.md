@@ -99,6 +99,8 @@ Then evaluated when needed, a single code element can be evaluated several times
 Order of calling is not always guaranteed! i.e. Arguments for a function may not be called in the order they are given.
 Function names are part of the syntax, because they can't be created from inside the code and are (mostly) fixed for the whole program.
 
+The suggested file extension for parenthis programs is `.par`.
+
 # Examples
 
 Here are some examples and the results they give.
