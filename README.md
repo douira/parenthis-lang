@@ -7,10 +7,12 @@ I've written about it (under the previous name SUL, rename pending) on the Esola
 ### Version history
 
 - **SUL v1**: Earlier implementation in Processing
-- **SUL v2**: Basic implementation in JavaScript in [this KhanAcademy project](https://www.khanacademy.org/computer-programming/sul-v2-an-esoteric-programming-language/4555641989431296). See code in `old.js`.
+- **SUL v2**: Basic implementation in JavaScript in [this KhanAcademy project](https://www.khanacademy.org/computer-programming/sul-v2-an-esoteric-programming-language/4555641989431296). See files in the folder `old`.
 - **parenthis v3**: (WIP) Better implementation in TypeScript without processing.js
 
 # Language
+
+See more docs in the (WIP) [wiki](https://github.com/douira/parenthis-lang/wiki/Language-and-API-Documentation).
 
 ## Formal Grammar in EBNF
 
