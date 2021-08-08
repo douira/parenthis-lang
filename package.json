@@ -1,31 +1,40 @@
 {
-  "name": "nuxt-spa-template",
+  "name": "parenthis-lang",
   "version": "1.0.0",
-  "description": "This is a template for a simple Nuxt.js project using Vuetify or general JS projects",
+  "description": "(parenthis) is an esoteric programming language",
   "author": "douira",
   "private": false,
-  "license": "MIT",
+  "license": "UNLICENSED",
   "engines": {
-    "node": ">=12.2.0"
+    "node": ">=15"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/douira/nuxt-spa-template.git"
+    "url": "git@github.com:douira/parenthis-lang.git"
   },
   "scripts": {
-    "lint": "eslint --ext .js,.vue --ignore-path .gitignore .",
-    "format-all": "eslint --fix --ext .js,.vue --ignore-path .gitignore .",
+    "run": "tsc && node ./build/run.js",
+    "test": "jest",
+    "lint": "eslint --ext .ts --ignore-path .gitignore .",
+    "format-all": "eslint --fix --ext .ts --ignore-path .gitignore .",
     "precommit": "npm run format-all"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.11",
+    "@types/node": "^15.6.1",
+    "@typescript-eslint/eslint-plugin": "^4.25.0",
+    "@typescript-eslint/parser": "^4.25.0",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^6.11.0",
-    "eslint-plugin-import": "^2.22.0",
-    "eslint-plugin-jest": "^23.20.0",
-    "eslint-plugin-prettier": "^3.1.4",
-    "eslint-plugin-promise": "^4.2.1",
-    "eslint-plugin-sonarjs": "^0.5.0",
-    "prettier": "^1.19.1"
+    "eslint": "^7.26.0",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.23.2",
+    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-promise": "^5.1.0",
+    "eslint-plugin-sonarjs": "^0.7.0",
+    "jest": "^27.0.6",
+    "prettier": "^2.3.0",
+    "ts-node": "^10.1.0",
+    "tsconfig-paths": "^3.10.1",
+    "typescript": "^4.3.2"
   }
 }

@@ -29,11 +29,11 @@ identifier = identifier segment , { "." , identifier segment } ;
 (* use lowerCamelCase for function names *)
 identifier segment = { a to z | A to Z | 0 to 9 } ; 
 
-(* not listing all possible chars here, regex equivalent: /(:?[^"\]|\\"|\\\\)*/ *)
-escaped string = { any character except '"' and " \ " | "\\" | '\"' } ;
-
-(* only double quotes are allowed, for now *)
-string = '"' , escaped string , '"' ;
+(* double or single quotes, not listing all possible chars here,
+regex equivalent for double quoted: /(:?[^"\]|\\"|\\\\)*/ *)
+string =
+    ( '"' , { any character except '"' and " \ " | "\\" | '\"' }, '"' )
+  | ( "'" , { any character except "'" and " \ " | "\\" | "\'" }, "'" );
 ```
 
 ## Comments
