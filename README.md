@@ -18,38 +18,39 @@ See more docs in the (WIP) [wiki](https://github.com/douira/parenthis-lang/wiki/
 
 ```ebnf
 (* a parenthis program consists of a single expression *)
-expression = element | string ;
+expression = between , ( element | string ) , between ;
 
 (* elements are an identifier and then any number of expressions *)
-element = "(" , identifier , { "," , expression } , ")" ;
+element = "(" , identifier , { "," , expression } , ")";
 
 (* consists of any number of segments separated by periods *)
-identifier = identifier segment , { "." , identifier segment } ;
+identifier = between , identifier segment ,
+  { "." , identifier segment } , between ;
 
 (* use lowerCamelCase for function names *)
-identifier segment = { a to z | A to Z | 0 to 9 } ; 
+identifier segment = { a to z | A to Z | 0 to 9 } ;
 
-(* double or single quotes, not listing all possible chars here,
-regex equivalent for double quoted: /(:?[^"\]|\\"|\\\\)*/ *)
+(* double or single quotes, not listing all possible chars here. \\ is escaped to \, \\" to \\ + (end of string) and \\\" to \".
+regex equivalent for double quoted: /'(.*?)(?<!\\)'/gs *)
 string =
-    ( '"' , { any character except '"' and " \ " | "\\" | '\"' }, '"' )
-  | ( "'" , { any character except "'" and " \ " | "\\" | "\'" }, "'" );
+    ( '"' , { any character except '"' | '\"' }, '"' )
+  | ( "'" , { any character except "'" | "\'" }, "'" ) ;
+
+between = { any whitespace character | comment } ;
 ```
+
+Theoretically the commas separating expressions could be omitted but for sake of simplicity they're required. Replacing them with whitespace or no whitespace when not ambiguous makes parsing more complicated.
 
 ## Comments
 
 Comments are similar to those in JavaScript:
-```
+
+```js
 code//this is a comment until the end of the line
-code/*this comment can be several lines*/
+code/*this comment can be
+several
+lines*/
 ```
-
-Comments inside of string literals are also removed if they're valid.
-- Multi-line comments can be inserted anywhere, even in function identifiers.
-- Single line comments depend on line breaks and will remove anything until a line break `\n` is detected.
-
-Not closing multi-line comments has fatal effects, because all code is removed until it's closed. 
-Because whitespace (after processing of single line comments) outside of string literals is completely ignored, you can use it wherever you want.
 
 ## Types
 
@@ -89,9 +90,11 @@ I have some ideas for a static type checking system but those aren't implemented
 By default all variables are declared using `setVar` and `getVar` which set variables in the first reachable scope. By default this will be the global scope. The function `createScope` creates a new scope which blocks calls to higher scopes using `setVar` and `getVar`. If the global variants `setVarGlobal` and `getVarGlobal` or are used the global boolean is set on `setVar` and `getVar` the global scope can be accessed again. Effectively, `scope` or anything similar creates a new variable map to use. The global variants skip checking or writing to any lower scope. Passing parameters to a function using `do` creates a new scope with numbered variables for each of the passed parameters. Writing to variables in a function call will use the function scope if not configured otherwise using global accessors.
 
 ## Namespacing
+
 The built-in functions are in this default namespace `parenthis` which can be omitted. All others can either be merged upon import and used without prefixing their namespace or used with their namespace like this for example: `foo.bar.functionName` or `baz.otherFunction`. Using a namespace as a function is an error but a namespace can contain any mix of functions and nested namespaces. Namespaces are imported using `import` (see docs).
 
 ## Other Notes
+
 Only evaluates what is necessary, only left-hand side of `or` if it is true and similar for `and`, and only the number of arguments needed with the types needed.
 
 Everything is parsed first without any checking for sense (except for formal syntax like function names, parentheses...).

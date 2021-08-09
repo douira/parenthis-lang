@@ -1,3 +1,20 @@
-type foo = number | string
+import { parse } from "./lib/parser"
 
-export const a: foo = 4
+const code = `
+(block,
+  (setVar, 'x', '0'),
+  (countedLoop,
+    '10',
+    (block,
+      (incrVar, 'x'),
+      (println,
+        (strConcat,###
+          'iteration Nr. ',
+          (getVar, 'x')
+        )
+      )
+    )
+  )
+)`
+
+console.log(parse(code))

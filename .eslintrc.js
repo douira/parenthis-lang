@@ -37,7 +37,6 @@ module.exports = {
       //code: Infinity since prettier already takes care of this
       { code: Infinity, comments: 100, ignorePattern: "TODO|DEBUG|INFO" }
     ],
-    "no-use-before-define": "error",
     "no-implicit-globals": "error",
     eqeqeq: ["error", "smart"],
 

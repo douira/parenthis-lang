@@ -13,7 +13,7 @@
     "url": "git@github.com:douira/parenthis-lang.git"
   },
   "scripts": {
-    "run": "tsc && node ./build/run.js",
+    "run": "tsc && node ./build/index.js",
     "test": "jest",
     "lint": "eslint --ext .ts --ignore-path .gitignore .",
     "format-all": "eslint --fix --ext .ts --ignore-path .gitignore .",
