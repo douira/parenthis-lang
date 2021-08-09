@@ -1,6 +1,8 @@
 import { parse } from "./lib/parser"
 
-const code = `
+//AST parsing examples
+console.log(
+  parse(`
 (block,
   (setVar, 'x', '0'),
   (countedLoop,
@@ -8,13 +10,29 @@ const code = `
     (block,
       (incrVar, 'x'),
       (println,
-        (strConcat,###
+        (strConcat,
           'iteration Nr. ',
           (getVar, 'x')
         )
       )
     )
   )
-)`
+)`)
+)
 
-console.log(parse(code))
+console.log(parse(`(block)`))
+
+console.log(parse(`"ffsfd'fdsfd'\\"fdsfds"`))
+
+//parsing error example
+console.log(
+  parse(`
+(block,
+      (incrVar, 'x'),
+      (println,
+        (strConcat,
+          'iteration Nr. ',
+          (getVar, 'x')
+        )
+      )`)
+)

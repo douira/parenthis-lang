@@ -20,9 +20,9 @@ export class ParenthisError extends Error {
     col: number
   ) {
     super(
-      `input:${line}:${col}: ${message}\n${lines[line - 1]}\n${" ".repeat(
-        col - 1
-      )}^`
+      `input:${line}:${col}: ${message}\n${
+        line > 1 ? `${lines[line - 2]}\n` : ""
+      }${lines[line - 1]}\n${" ".repeat(col - 1)}^`
     )
     this.type = type
     this.line = line
