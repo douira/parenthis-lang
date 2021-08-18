@@ -2,7 +2,7 @@
 const errorMessageBuilders = {
   expectedButFound: (expected: string, found: string) =>
     `Expected ${expected} but found ${found}`,
-  invalidIdentifier: (found: string) => `Identifier ${found} is invalid`
+  invalidIdentifier: (found: string) => `Identifier ${found} is invalid`,
 }
 type ErrorMessageBuilders = typeof errorMessageBuilders
 type ErrorType = keyof ErrorMessageBuilders

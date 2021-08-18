@@ -23,7 +23,7 @@ const tokenMatchers = {
   openParen: /\(/,
   closeParen: /\)/,
   comma: /,/,
-  identifier: /[a-z0-9.]+/
+  identifier: /[a-z0-9.]+/,
 }
 type TokenMatchType = keyof typeof tokenMatchers
 type TokenType = TokenMatchType | "invalid" | "endOfFile"
@@ -56,14 +56,14 @@ export const parse = (str: string): Expression => {
         matchIndex === -1
           ? "invalid"
           : (tokenMatchersArr[matchIndex - 1][0] as TokenMatchType),
-      match: match[0]
+      match: match[0],
     }
   })
 
   //add an end-of-file token to ensure there's only one root expression
   tokens.push({
     type: "endOfFile",
-    match: ""
+    match: "",
   })
 
   //keep track of the current line and line column position
@@ -142,7 +142,7 @@ export const parse = (str: string): Expression => {
     //construct an element with the parsed identifier and init an args array
     const element: Element = {
       identifier,
-      args: []
+      args: [],
     }
 
     //collect argument expressions
