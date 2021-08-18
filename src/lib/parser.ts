@@ -105,7 +105,8 @@ export const parse = (str: string): Expression => {
   //throws an error when the given value is undefined
   const expectValue = <Type>(expected: string, value: Type | undefined) => {
     if (value == null) {
-      throw errors.expectedButFound(lines,
+      throw errors.expectedButFound(
+        lines,
         line,
         col,
         `${expected}`,

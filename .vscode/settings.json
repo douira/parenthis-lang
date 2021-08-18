@@ -1,32 +1,9 @@
 {
   "eslint.validate": [
-    "vue",
     "html",
-    "javascript"
+    "javascript",
+    "typescript"
   ],
-  "[javascript]": {
-    "editor.formatOnSave": false,
-    "editor.formatOnPaste": false,
-    "editor.formatOnType": false
-  },
-  "[vue]": {
-    "editor.formatOnSave": false,
-    "editor.formatOnPaste": false,
-    "editor.formatOnType": false
-  },
-  "editor.codeActionsOnSave": {
-    "source.fixAll.eslint": true
-  },
-  "vetur.validation.template": false,
-  "vetur.validation.script": false,
-  "vetur.format.defaultFormatter.js": "prettier-eslint",
-  "javascript.format.enable": false,
-  "javascript.validate.enable": false,
-  "search.exclude": {
-    "**/node_modules": true,
-    "**/dist": true,
-    "**/.nuxt": true
-  },
   "cSpell.words": [
     "Unprocessable",
     "Vuetify",
