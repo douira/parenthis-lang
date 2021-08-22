@@ -1,3 +1,4 @@
+/*eslint-disable*/
 //See the original docs in OLD-DOCS.md
 
 //OPTIONAL INPUT
@@ -40,7 +41,7 @@ let msgLevelIndicators = [
   "SUL_PRINT",
   "SUL_INFO",
   "SUL_WARN",
-  "UNKNOWN"
+  "UNKNOWN",
 ]
 
 //constant names for types of values
@@ -51,22 +52,22 @@ let types = {
   BLOCK: 3,
   FUNC: 4,
   BOOL: 5,
-  ARRAY: 6
+  ARRAY: 6,
 }
 
 //--functions--
 //replaces the char of a string at a specific index
-let replaceIndex = function(str, index, character) {
+let replaceIndex = function (str, index, character) {
   return str.substr(0, index) + character + str.substr(index + character.length)
 }
 //shim Date.now if not given
 if (!Date.now) {
-  Date.now = function() {
+  Date.now = function () {
     return new Date().getTime()
   }
 }
 //pads double digit time with 0s
-let padTimeNum = function(num, oes) {
+let padTimeNum = function (num, oes) {
   //use deafult of 2 0s
   if (typeof oes === "undefined") {
     oes = 2
@@ -76,7 +77,7 @@ let padTimeNum = function(num, oes) {
   return nf(num, oes, -1)
 }
 //returns the current time stamp nicely formatted
-let timeStamp = function() {
+let timeStamp = function () {
   //return the time with added 0s
   return (
     padTimeNum(hour()) +
@@ -89,7 +90,7 @@ let timeStamp = function() {
   ) //millis in current second
 }
 //returns a precise unix time time stamp
-let preciseTimeStamp = function() {
+let preciseTimeStamp = function () {
   //get current date for timestamp
   let d = new Date()
 
@@ -98,7 +99,7 @@ let preciseTimeStamp = function() {
 }
 var handleSulError //hoist declaration
 //message function for printing system messages
-let msg = function(level, input) {
+let msg = function (level, input) {
   //add time and level indicator
   input = "[" + timeStamp() + "]" + msgLevelIndicators[level] + ":" + input
 
@@ -126,17 +127,17 @@ let msg = function(level, input) {
   }
 }
 //handle what happens when a sul error is produced
-var handleSulError = function(message) {
+var handleSulError = function (message) {
   stop = true
   msg(1, "Exiting program because of a SUL error...")
 }
 //removes comments and checks for length (This could be improved using RegEx)
-let processRaw = function(str) {
+let processRaw = function (str) {
   msg(0, "Removing comments...")
 
   //remove single, until end of line comments
   str = join(
-    programCode.split("\n").map(function(line) {
+    programCode.split("\n").map(function (line) {
       //get comment position
       let commentPosition = line.indexOf("//")
 
@@ -150,7 +151,7 @@ let processRaw = function(str) {
   let inComment = false
   str = str
     .split("") //split into char array
-    .filter(function(char, index, strArray) {
+    .filter(function (char, index, strArray) {
       //filter char comments
       //not at end of string and at start of comment
       if (index < strArray.length - 1 && char + strArray[index + 1] === "/*") {
@@ -208,7 +209,7 @@ let processRaw = function(str) {
   return str
 }
 //returns an array filled with the given value
-let filledArray = function(value, amount) {
+let filledArray = function (value, amount) {
   //new array to return
   let arr = []
 
@@ -225,24 +226,24 @@ let filledArray = function(value, amount) {
   return arr
 }
 //function that returns null (for casting into null type, for whatever reason)
-let toNull = function() {
+let toNull = function () {
   return null
 }
 //calculates the gcd of two numbers (should be converted to int first)
-var gcd = function(a, b) {
+var gcd = function (a, b) {
   return b ? gcd(b, a % b) : a
 }
 //calculates the lcm of two numbers (should be converted to int first)
-let lcm = function(a, b) {
+let lcm = function (a, b) {
   return Math.abs(a * b) / gcd(a, b)
 }
 //checks if the first char of a given string is a double or single quotes
-let firstIsQuote = function(str) {
+let firstIsQuote = function (str) {
   //allows for " and ' mixed
   return str[0] === '"' || str[0] === "'"
 }
 //adds a char to the lastelement of an array
-let addArgChar = function(array, char) {
+let addArgChar = function (array, char) {
   //add string to last index
   if (array && array.length > 0) {
     array[array.length - 1] += char
@@ -252,7 +253,7 @@ let addArgChar = function(array, char) {
 
 //--classes--
 //class that manages packages of execution functions
-let Packages = function() {
+let Packages = function () {
   //array of all functions that can be used in elements
   this.elementFunctions = {}
 
@@ -260,7 +261,7 @@ let Packages = function() {
   this.amount = 0
 }
 //adds a package of execution functions to the available functions
-Packages.prototype.addPackage = function(pkg, prefix) {
+Packages.prototype.addPackage = function (pkg, prefix) {
   //a package is of the format:
   /*
     {
@@ -323,14 +324,14 @@ Packages.prototype.addPackage = function(pkg, prefix) {
   }
 }
 //removes an exec function
-Packages.prototype.removeExec = function(name) {
+Packages.prototype.removeExec = function (name) {
   //delete reference
   delete this.elementFunctions[name]
 
   this.amount--
 }
 //returns a exec function with the given name
-Packages.prototype.getExecFunction = function(name) {
+Packages.prototype.getExecFunction = function (name) {
   //if it exists
   if (this.elementFunctions.hasOwnProperty(name)) {
     //return corresponding function
@@ -345,7 +346,7 @@ Packages.prototype.getExecFunction = function(name) {
 let Element
 
 //Value class represents a value that can be passed around
-let Value = function(fromFunctionTemp) {
+let Value = function (fromFunctionTemp) {
   //value of this object, can be converted if possible
   this.value = undefined
 
@@ -360,174 +361,174 @@ let Value = function(fromFunctionTemp) {
 Value.typeConverters = [
   //to types:
   //0: to NULL
-  filledArray(function() {
+  filledArray(function () {
     return null
   }, types.length), //always returns null
   //1: to NUM
   [
     //from:
-    function() {
+    function () {
       return 0
     }, //NULL
-    function(num) {
+    function (num) {
       return num
     }, //NUM
-    function(str) {
+    function (str) {
       return parseFloat(str)
     }, //STRING
-    function(block) {
+    function (block) {
       return block.exec().getVal(types.NUM)
     }, //BLOCK
-    function(func) {
+    function (func) {
       return func.exec().getVal(types.NUM)
     }, //FUNC
-    function(bool) {
+    function (bool) {
       return bool ? 1 : 0
     }, //BOOL
-    function(array) {
+    function (array) {
       return array[0].getVal(types.NUM)
-    } //ARRAY
+    }, //ARRAY
   ],
   //2: to STRING
   [
     //from:
-    function() {
+    function () {
       return ""
     }, //NULL
-    function(num) {
+    function (num) {
       return num.toString()
     }, //NUM
-    function(str) {
+    function (str) {
       return str
     }, //STRING
-    function(block) {
+    function (block) {
       return block.fullCode
     }, //BLOCK
-    function(func) {
+    function (func) {
       return func.fullCode
     }, //FUNC
-    function(bool) {
+    function (bool) {
       return bool ? "true" : "false"
     }, //BOOL
-    function(array) {
+    function (array) {
       return "[" + join(Value.toStringArray(array), ",") + "]"
-    } //ARRAY
+    }, //ARRAY
   ],
   //3: to BLOCK
   [
     //from:
-    function() {
+    function () {
       return new Element("(block)")
     }, //NULL
-    function(num) {
+    function (num) {
       return new Element("(block)")
     }, //NUM
-    function(str) {
+    function (str) {
       return new Element(str)
     }, //STRING
-    function(block) {
+    function (block) {
       return block
     }, //BLOCK
-    function(func) {
+    function (func) {
       return func.setFunctionName("block")
     }, //FUNC
-    function(bool) {
+    function (bool) {
       return new Element("(block)")
     }, //BOOL
-    function(array) {
+    function (array) {
       return array[0].getVal(types.BLOCK)
-    } //ARRAY
+    }, //ARRAY
   ],
   //4: to FUNC
   [
     //from:
-    function() {
+    function () {
       return new Element("(func)")
     }, //NULL
-    function(num) {
+    function (num) {
       return new Element("(func)")
     }, //NUM
-    function(str) {
+    function (str) {
       return new Element(str)
     }, //STRING
-    function(block) {
+    function (block) {
       return block.setFunctionName("func")
     }, //BLOCK
-    function(func) {
+    function (func) {
       return func
     }, //FUNC
-    function(bool) {
+    function (bool) {
       return new Element("(func)")
     }, //BOOL
-    function(array) {
+    function (array) {
       return array[0].getVal(types.FUNC)
-    } //ARRAY
+    }, //ARRAY
   ],
   //5: to BOOL
   [
     //from:
-    function() {
+    function () {
       return false
     }, //NULL
-    function(num) {
+    function (num) {
       return num === 0 ? false : true
     }, //NUM
-    function(str) {
+    function (str) {
       return str.length > 0
     }, //STRING
-    function(block) {
+    function (block) {
       return block.exec().getVal(types.BOOL)
     }, //BLOCK
-    function(func) {
+    function (func) {
       return func.exec().getVal(types.BOOL)
     }, //FUNC
-    function(bool) {
+    function (bool) {
       return bool
     }, //BOOL
-    function(array) {
+    function (array) {
       return array[0].getVal(types.BOOL)
-    } //ARRAY
+    }, //ARRAY
   ],
   //6: to ARRAY
   [
     //from:
-    function() {
+    function () {
       return []
     }, //NULL
-    function(num) {
+    function (num) {
       return [num]
     }, //NUM
-    function(str) {
+    function (str) {
       return [str]
     }, //STRING
-    function(block) {
+    function (block) {
       return [block]
     }, //BLOCK
-    function(func) {
+    function (func) {
       return [func]
     }, //FUNC
-    function(bool) {
+    function (bool) {
       return [bool]
     }, //BOOL
-    function(array) {
+    function (array) {
       return array
-    } //ARRAY
-  ]
+    }, //ARRAY
+  ],
 ]
 //returns the name of a given type id
-Value.typeName = function(typeId) {
+Value.typeName = function (typeId) {
   //reverse lookup the name of the given typeId
-  return Object.keys(types).find(function(key, i, obj) {
+  return Object.keys(types).find(function (key, i, obj) {
     return types[key] === typeId
   })
 }
 //converts a type name to a type id
-Value.typeId = function(typeName) {
+Value.typeId = function (typeName) {
   //simple lookup in types
   return types[typeName]
 }
 //makes a new value with a given value and type
-Value.createValue = function(value, useType) {
+Value.createValue = function (value, useType) {
   //create new value
   let newValue = new Value()
 
@@ -538,39 +539,39 @@ Value.createValue = function(value, useType) {
   return newValue
 }
 //converts a value array into string converted values
-Value.toStringArray = function(val) {
-  return val.getVal(types.ARRAY).map(function(val) {
+Value.toStringArray = function (val) {
+  return val.getVal(types.ARRAY).map(function (val) {
     return val.getVal(types.STRING)
   })
 }
 //non-static version of toStringArray
-Value.prototype.toStringArray = function() {
+Value.prototype.toStringArray = function () {
   return Value.toStringArray(this)
 }
 //returns the type name of this value
-Value.prototype.getTypeName = function() {
+Value.prototype.getTypeName = function () {
   //return name of own type
   return Value.typeName(this.type)
 }
 //converts a value using the type converters
-Value.prototype.convert = function(value, fromType, toType) {
+Value.prototype.convert = function (value, fromType, toType) {
   //call type converter that converts value from given to desired type
   return Value.typeConverters[toType][fromType](value)
 }
 //returns the value of this element, cast into the given type if possible
-Value.prototype.getVal = function(type) {
+Value.prototype.getVal = function (type) {
   //convert own value to desired type
   return this.convert(this.value, this.type, type)
 }
 //sets the from function
-Value.prototype.setFromFunction = function(newFromFunction) {
+Value.prototype.setFromFunction = function (newFromFunction) {
   //set from function with new
   this.fromFunction = newFromFunction
 
   return this
 }
 //sets value to given value object (copies)
-Value.prototype.setValueObject = function(newValueObj) {
+Value.prototype.setValueObject = function (newValueObj) {
   //set to new value and new type
   this.value = newValueObj.value
   this.type = newValueObj.type
@@ -578,7 +579,7 @@ Value.prototype.setValueObject = function(newValueObj) {
   return this
 }
 //sets value using given type and optionally a type to be converted from
-Value.prototype.setValue = function(newValue, newType, fromType) {
+Value.prototype.setValue = function (newValue, newType, fromType) {
   //convert if from type given
   if (typeof fromType !== "undefined") {
     //convert to new type
@@ -592,49 +593,49 @@ Value.prototype.setValue = function(newValue, newType, fromType) {
   return this
 }
 //sets value to null
-Value.prototype.setNull = function() {
+Value.prototype.setNull = function () {
   this.setValue(null, types.NULL)
 
   return this
 }
 //sets value given as number
-Value.prototype.setNum = function(num, fromType) {
+Value.prototype.setNum = function (num, fromType) {
   this.setValue(num, types.NUM, fromType)
 
   return this
 }
 //sets value given as string
-Value.prototype.setString = function(str, fromType) {
+Value.prototype.setString = function (str, fromType) {
   this.setValue(str, types.STRING, fromType)
 
   return this
 }
 //sets value given as block
-Value.prototype.setBlock = function(block, fromType) {
+Value.prototype.setBlock = function (block, fromType) {
   this.setValue(block, types.BLOCK, fromType)
 
   return this
 }
 //sets value given as func
-Value.prototype.setFunc = function(func, fromType) {
+Value.prototype.setFunc = function (func, fromType) {
   this.setValue(func, types.FUNC, fromType)
 
   return this
 }
 //sets value given as boolean
-Value.prototype.setBool = function(bool, fromType) {
+Value.prototype.setBool = function (bool, fromType) {
   this.setValue(bool, types.BOOL, fromType)
 
   return this
 }
 //sets value given as array
-Value.prototype.setArray = function(array, fromType) {
+Value.prototype.setArray = function (array, fromType) {
   this.setValue(array, types.ARRAY, fromType)
 
   return this
 }
 //converts this value into the given type
-Value.prototype.castInto = function(toType) {
+Value.prototype.castInto = function (toType) {
   //get converted value
   this.value = this.getVal(toType)
 
@@ -643,7 +644,7 @@ Value.prototype.castInto = function(toType) {
   return this
 }
 //checks (recursive) equality with another value, without type conversion
-Value.prototype.strictEquals = function(other) {
+Value.prototype.strictEquals = function (other) {
   //if types match
   if (this.type === other.type) {
     //if array type
@@ -651,7 +652,7 @@ Value.prototype.strictEquals = function(other) {
       //length the same
       if (this.value.length === other.value.length) {
         //check equality on every element
-        return other.every(function(otherElement, otherIndex) {
+        return other.every(function (otherElement, otherIndex) {
           //return if current element matches corresponding one in own array
           return otherElement.strictEquals(this.value[otherIndex])
         }, this)
@@ -674,7 +675,7 @@ Value.prototype.strictEquals = function(other) {
   }
 }
 //checks for equality that converts to own type first
-Value.prototype.equals = function(other) {
+Value.prototype.equals = function (other) {
   //match types
   let matchedOther = new Value().setValueObject(other).castInto(this.type)
 
@@ -683,7 +684,7 @@ Value.prototype.equals = function(other) {
     //length the same
     if (this.value.length === other.value.length) {
       //check equality on every element
-      return other.every(function(otherElement, otherIndex) {
+      return other.every(function (otherElement, otherIndex) {
         //return if current element matches corresponding one in own array
         return otherElement.equals(this.value[otherIndex])
       }, this)
@@ -702,14 +703,14 @@ Value.prototype.equals = function(other) {
   }
 }
 //performs a value dump
-Value.prototype.varDump = function() {
+Value.prototype.varDump = function () {
   //if array type
   if (this.type === types.ARRAY) {
     //call for all of array
     return (
       "{ARRAY}[" +
       this.value
-        .map(function(el) {
+        .map(function (el) {
           //get val dump of element
           return el.varDump()
         })
@@ -723,7 +724,7 @@ Value.prototype.varDump = function() {
 }
 
 //Element class, represents one functional function/element in the syntax tree
-Element = function(input, depthAbove) {
+Element = function (input, depthAbove) {
   //arguments passed to this element as strings and parsed elements
   this.args = []
   this.argStrings = []
@@ -763,12 +764,12 @@ Element = function(input, depthAbove) {
   this.parse(input)
 }
 //gets the actual value from an argument
-Element.prototype.argVal = function(index, type) {
+Element.prototype.argVal = function (index, type) {
   //get value object and then get actual value from that
   return this.argEval(index).getVal(type)
 }
 //gets the return value object of a given argument
-Element.prototype.argEval = function(index) {
+Element.prototype.argEval = function (index) {
   //only return value if not stopped
   if (!stop) {
     //check if that arg exists
@@ -788,7 +789,7 @@ Element.prototype.argEval = function(index) {
   return new Value("STOPPED")
 }
 //determines and assigns an execution function from a given element name
-Element.prototype.assignExecFunction = function(execFunctionName) {
+Element.prototype.assignExecFunction = function (execFunctionName) {
   //println(this.args + " " + this.argStrings);
   //get from package manager
   this.execFunction = packages.getExecFunction(execFunctionName)
@@ -799,11 +800,11 @@ Element.prototype.assignExecFunction = function(execFunctionName) {
     msg(5, "Function '" + execFunctionName + "' doesn't exist.")
 
     //set to empty to prevent js errors
-    this.execFunction = function() {}
+    this.execFunction = function () {}
   }
 }
 //sets the function name and updates the exec function
-Element.prototype.setFunctionName = function(name) {
+Element.prototype.setFunctionName = function (name) {
   //set name string
   this.functionName = name
 
@@ -814,7 +815,7 @@ Element.prototype.setFunctionName = function(name) {
   return this
 }
 //parses the given input string
-Element.prototype.parse = function(input) {
+Element.prototype.parse = function (input) {
   this.fullCode = input
 
   //if literal string
@@ -835,7 +836,7 @@ Element.prototype.parse = function(input) {
       .substring(1, input.length - 1) //remove first and last paren chars
       .split("") //split into char array
       .reduce(
-        function(args, char) {
+        function (args, char) {
           //reduce to string elements
           //check if entered string but outside before
           if (firstIsQuote(char) && !inString) {
@@ -887,7 +888,7 @@ Element.prototype.parse = function(input) {
     }
 
     //parse inner
-    this.argStrings.forEach(function(argString, index) {
+    this.argStrings.forEach(function (argString, index) {
       //not with function name
       if (index) {
         let firstChar = argString[0]
@@ -924,11 +925,11 @@ Element.prototype.parse = function(input) {
   //this.argLength = this.args.length;
 }
 //does a cosine factor modulation
-Element.prototype.cosFactorMod = function(fac) {
+Element.prototype.cosFactorMod = function (fac) {
   return (cos(fac * 180 + 180) + 1) * 0.5
 }
 //calculates a color gradient
-Element.prototype.multiColorGradient = function(
+Element.prototype.multiColorGradient = function (
   factor,
   colors,
   positions,
@@ -946,7 +947,7 @@ Element.prototype.multiColorGradient = function(
   return lerpColor(colors[colorIndex], colors[colorIndex + 1], factor)
 }
 //evaluates/executes this element
-Element.prototype.exec = function(paramsTemp) {
+Element.prototype.exec = function (paramsTemp) {
   //copy params for argEval
   this.params = typeof paramsTemp === "undefined" ? [] : paramsTemp
 
@@ -958,7 +959,7 @@ Element.prototype.exec = function(paramsTemp) {
 }
 
 //class representing all variables a a group with methods for using them
-let Variables = function() {
+let Variables = function () {
   //object holding all variables
   this.vars = {}
 
@@ -966,7 +967,7 @@ let Variables = function() {
   this.amount = 0
 }
 //sets a variable, value is a actual value not object
-Variables.prototype.setVarVal = function(value, type, nameString) {
+Variables.prototype.setVarVal = function (value, type, nameString) {
   if (!this.vars.hasOwnProperty(nameString)) {
     this.vars[nameString] = Value.createValue(value, type)
   } else {
@@ -976,7 +977,7 @@ Variables.prototype.setVarVal = function(value, type, nameString) {
   return this.vars[nameString]
 }
 //sets a variable using name and value object
-Variables.prototype.setVar = function(value, nameString) {
+Variables.prototype.setVar = function (value, nameString) {
   if (!this.vars.hasOwnProperty(nameString)) {
     this.vars[nameString] = value
   } else {
@@ -987,7 +988,7 @@ Variables.prototype.setVar = function(value, nameString) {
   return this.vars[nameString]
 }
 //gets value from a variable
-Variables.prototype.getVar = function(defaultValue, nameString) {
+Variables.prototype.getVar = function (defaultValue, nameString) {
   //if exists
   if (this.vars.hasOwnProperty(nameString)) {
     //get with name string
@@ -999,17 +1000,17 @@ Variables.prototype.getVar = function(defaultValue, nameString) {
   }
 }
 //method to get number vars (used in assignment operators of variables)
-Variables.prototype.getNumVar = function(nameString) {
+Variables.prototype.getNumVar = function (nameString) {
   return this.getVar(Value.createValue(0, types.NUM), nameString).getVal(
     types.NUM
   )
 }
 //sets number variables
-Variables.prototype.setNumVar = function(num, nameString) {
+Variables.prototype.setNumVar = function (num, nameString) {
   return this.setVarVal(num, types.NUM, nameString)
 }
 //removes a variable
-Variables.prototype.deleteVar = function(name) {
+Variables.prototype.deleteVar = function (name) {
   //delete it from variables
   delete this.vars[name]
   this.amount--
@@ -1017,7 +1018,7 @@ Variables.prototype.deleteVar = function(name) {
   return name
 }
 //assign-operates (?) a number using a given name string and callback and second number
-Variables.prototype.changeNumVar = function(name, callback, secondNum) {
+Variables.prototype.changeNumVar = function (name, callback, secondNum) {
   return this.setNumVar(callback(this.getNumVar(name), secondNum), name)
 }
 
@@ -1030,44 +1031,44 @@ let sul = {
     //misc OK
     misc: {
       //execute a string as a new element, essentially like do, just without params OK
-      strExec: function() {
+      strExec: function () {
         //execute new element created from string
         this.val = this.argVal(0, types.BLOCK).exec(this.params).val
       },
       //creates a function type value from a string without executing it OK
-      strFunc: function() {
+      strFunc: function () {
         //create new element from string and use as first arg
         this.val.setFunc(this.argVal(0, types.FUNC))
-      }
+      },
     },
     //constants, non mathematical OK
     const: {
       //returns true OK
-      true: function() {
+      true: function () {
         this.val.setBool(true)
       },
       //returns false OK
-      false: function() {
+      false: function () {
         this.val.setBool(false)
-      }
+      },
     },
     //control flow
     control: {
       //loops OK
       loop: {
         //does something twice OK
-        twice: function() {
+        twice: function () {
           this.argEval(0)
           this.val = this.argEval(0)
         },
         //does something three times OK
-        thrice: function() {
+        thrice: function () {
           this.argEval(0)
           this.argEval(0)
           this.val = this.argEval(0)
         },
         //loops the specified amount of times OK
-        countedLoop: function() {
+        countedLoop: function () {
           //get loop counter
           let count = abs(this.argVal(0, types.NUM))
 
@@ -1081,7 +1082,7 @@ let sul = {
           }
         },
         //do while loop (at least once) OK
-        doWhile: function() {
+        doWhile: function () {
           //do while first arg is true
           do {
             //exec the second one
@@ -1089,7 +1090,7 @@ let sul = {
           } while (this.argVal(0, types.BOOL))
         },
         //while loop OK
-        while: function() {
+        while: function () {
           //while first arg is true
           while (this.argVal(0, types.BOOL)) {
             //exec the second one
@@ -1097,7 +1098,7 @@ let sul = {
           }
         },
         //do until loop (at least once) OK
-        doUntil: function() {
+        doUntil: function () {
           //while not first arg is true
           do {
             //exec the second one
@@ -1105,7 +1106,7 @@ let sul = {
           } while (!this.argVal(0, types.BOOL))
         },
         //until loop OK
-        until: function() {
+        until: function () {
           //while not first arg is true
           while (!this.argVal(0, types.BOOL)) {
             //exec the second one
@@ -1113,28 +1114,28 @@ let sul = {
           }
         },
         //for as triple part OK
-        for: function() {
+        for: function () {
           for (this.argEval(0); this.argVal(1, types.BOOL); this.argEval(2)) {
             this.val = this.argEval(3)
           }
         },
         //non ending loop OK
-        forever: function() {
+        forever: function () {
           while (true) {
             this.argEval(0)
           }
-        }
+        },
       },
       //conditionals
       conditional: {
         //if OK
-        if: function() {
+        if: function () {
           if (this.argVal(0, types.BOOL)) {
             this.val = this.argEval(1)
           }
         },
         //ifElse OK
-        ifElse: function() {
+        ifElse: function () {
           if (this.argVal(0, types.BOOL)) {
             this.val = this.argEval(1)
           } else {
@@ -1142,7 +1143,7 @@ let sul = {
           }
         },
         //ifElseIf OK
-        ifElseIf: function() {
+        ifElseIf: function () {
           if (this.argVal(0, types.BOOL)) {
             this.val = this.argEval(1)
           } else if (this.argVal(2, types.BOOL)) {
@@ -1150,7 +1151,7 @@ let sul = {
           }
         },
         //ifElseIfElse OK
-        ifElseIfElse: function() {
+        ifElseIfElse: function () {
           if (this.argVal(0, types.BOOL)) {
             this.val = this.argEval(1)
           } else if (this.argVal(2, types.BOOL)) {
@@ -1160,7 +1161,7 @@ let sul = {
           }
         },
         //switchArray
-        switchArray: function() {
+        switchArray: function () {
           let value = this.argEval(0)
           let matchValues = this.argVal(1, types.ARRAY)
 
@@ -1170,7 +1171,7 @@ let sul = {
           //length match
           if (execs.length === matchValues.length) {
             //find match
-            let exec = execs.find(function(func, index) {
+            let exec = execs.find(function (func, index) {
               return matchValues[index].equals(value)
             })
 
@@ -1185,7 +1186,7 @@ let sul = {
           }
         },
         //switch with arg list
-        switchList: function() {
+        switchList: function () {
           let value = this.argEval(0)
           let index = 2
           let foundMatch = false
@@ -1206,22 +1207,22 @@ let sul = {
             //do default
             this.val = this.argEval(1)
           }
-        }
-      }
+        },
+      },
     },
     //types OK, but partially strange
     types: {
       //null placeholder for unused args OK
-      null: function() {
+      null: function () {
         //returns null
         this.val.setNull()
       },
       //string literal OK
-      stringLiteral: function() {
+      stringLiteral: function () {
         this.val.setString(this.argStrings[0])
       },
       //makes block from args and executes OK, but strange
-      block: function() {
+      block: function () {
         //execute all
         for (let index in this.args) {
           this.val = this.argEval(index)
@@ -1230,7 +1231,7 @@ let sul = {
         debug(this.val)
       },
       //func returns first arg as func value and doesn't execute OK, but strange
-      func: function() {
+      func: function () {
         //does not execute when used in eval!
         //must be cast into block, which changes functionName to block which does execute in eval
 
@@ -1238,103 +1239,103 @@ let sul = {
         this.val.setFunc(this.args[0])
       },
       //parses any number to and int using a radix OK
-      num: function() {
+      num: function () {
         this.val.setNum(
           parseInt(this.argVal(0, types.STRING), this.argVal(1, types.NUM))
         )
       },
       //int parses an int instead of a float OK
-      int: function() {
+      int: function () {
         this.val.setNum(parseInt(this.argVal(0, types.STRING), 10))
       },
       //same as implicit casting OK
-      float: function() {
+      float: function () {
         this.val.setNum(this.argVal(0, types.NUM))
       },
       //same as implicit casting OK
-      string: function() {
+      string: function () {
         this.val.setString(this.argVal(0, types.STRING))
       },
       //puts all given args into an array OK
-      array: function() {
+      array: function () {
         //map to eval each one
         this.val.setArray(
-          this.args.map(function(arg, index) {
+          this.args.map(function (arg, index) {
             return this.argEval(index)
           }, this)
         )
       },
       //same as implicit casting OK
-      bool: function() {
+      bool: function () {
         this.val.setBool(this.argVal(0, types.BOOL))
       },
       //type utilities OK
       util: {
         //returns the type of a value given OK
-        typeof: function() {
+        typeof: function () {
           this.val.setString(this.argEval(0).getTypeName())
         },
         //casts into block OK
-        blockCast: function() {
+        blockCast: function () {
           this.val.setBlock(this.argVal(0, types.BLOCK))
         },
         //casts into func OK
-        funcCast: function() {
+        funcCast: function () {
           this.val.setFunc(this.argVal(0, types.FUNC))
         },
         //gets the type id OK
-        typeId: function() {
+        typeId: function () {
           this.val.setNum(this.argEval(0).type)
         },
         //converts a type id to a type name OK
-        toTypeName: function() {
+        toTypeName: function () {
           this.val.setString(Value.typeName(this.argVal(0, types.NUM)))
         },
         //check if a value is a given type OK
         checkType: {
           //checks if value is of type NULL OK
-          isNull: function() {
+          isNull: function () {
             this.val.setBool(this.argEval(0).type === types.NULL)
           },
           //checks if value is of type NUM OK
-          isNum: function() {
+          isNum: function () {
             this.val.setBool(this.argEval(0).type === types.NUM)
           },
           //checks if value is of type STRING OK
-          isString: function() {
+          isString: function () {
             this.val.setBool(this.argEval(0).type === types.STRING)
           },
           //checks if value is of type BLOCK OK
-          isBlock: function() {
+          isBlock: function () {
             this.val.setBool(this.argEval(0).type === types.BLOCK)
           },
           //checks if value is of type FUNC OK
-          isFunc: function() {
+          isFunc: function () {
             this.val.setBool(this.argEval(0).type === types.FUNC)
           },
           //checks if value is of type BOOL OK
-          isBool: function() {
+          isBool: function () {
             this.val.setBool(this.argEval(0).type === types.BOOL)
           },
           //checks if value is of type ARRAY OK
-          isArray: function() {
+          isArray: function () {
             this.val.setBool(this.argEval(0).type === types.ARRAY)
-          }
-        }
-      }
+          },
+        },
+      },
     },
     //environment interaction
     env: {
       //printing things OK
       print: {
         //print with SUL_PRINT OK
-        println: function() {
+        println: function () {
           msg(6, this.argVal(0, types.STRING))
         },
         //print a variable dump including type info OK
-        varDump: function() {
+        varDump: function () {
           msg(6, this.argEval(0).varDump())
-        }
+        },
       },
       //(user or external) input
       input: {
@@ -1343,50 +1344,50 @@ let sul = {
           //mouse interaction
           mouse: {
             //current mouse x position OK
-            mouseX: function() {
+            mouseX: function () {
               this.val.setNum(mouseX)
             },
             //current mouse y position OK
-            mouseY: function() {
+            mouseY: function () {
               this.val.setNum(mouseY)
             },
             //current mouse position as array OK
-            mousePos: function() {
+            mousePos: function () {
               //set with created array of both coordinates
               this.val.setArray([
                 Value.createValue(mouseX, types.NUM),
-                Value.createValue(mouseY, types.NUM)
+                Value.createValue(mouseY, types.NUM),
               ])
             },
             //last x mouse position OK
-            lastMouseX: function() {
+            lastMouseX: function () {
               this.val.setNum(pmouseX)
             },
             //last y mouse position OK
-            lastMouseY: function() {
+            lastMouseY: function () {
               this.val.setNum(pmouseY)
             },
             //last mouse position as array OK
-            lastMousePos: function() {
+            lastMousePos: function () {
               //set with created array of both coordinates
               this.val.setArray([
                 Value.createValue(pmouseX, types.NUM),
-                Value.createValue(pmouseY, types.NUM)
+                Value.createValue(pmouseY, types.NUM),
               ])
             },
             //delta mouse position
-            deltaMousePos: function() {
+            deltaMousePos: function () {
               this.val.setArray([
                 Value.createValue(mouseX - pmouseX, types.NUM),
-                Value.createValue(mouseY - pmouseY, types.NUM)
+                Value.createValue(mouseY - pmouseY, types.NUM),
               ])
             },
             //if mouse is pressed OK
-            mousePressed: function() {
+            mousePressed: function () {
               this.val.setBool(mouseIsPressed)
             },
             //returns id with mouse button pressed
-            mouseButton: function() {
+            mouseButton: function () {
               let buttonId = -1
               switch (mouseButton) {
                 case LEFT:
@@ -1402,362 +1403,362 @@ let sul = {
               this.val.setNum(buttonId)
             },
             //true when left mouse button is pressed
-            leftButtonPressed: function() {
+            leftButtonPressed: function () {
               this.val.setBool(mouseIsPressed && mouseButton === LEFT)
             },
             //true when center mouse button is pressed
-            centerButtonPressed: function() {
+            centerButtonPressed: function () {
               this.val.setBool(mouseIsPressed && mouseButton === CENTER)
             },
             //true when right mouse button is pressed
-            rightButtonPressed: function() {
+            rightButtonPressed: function () {
               this.val.setBool(mouseIsPressed && mouseButton === RIGHT)
-            }
+            },
           },
           //keyboard interaction
           keyboard: {
             //last pressed key
-            lastKey: function() {
+            lastKey: function () {
               this.val.setNum(key.code)
             },
             //last key as string
-            lastKeyString: function() {
+            lastKeyString: function () {
               this.val.setString(key.toString())
             },
             //last coded key
-            lastCodedKey: function() {
+            lastCodedKey: function () {
               this.val.setNum(keyCode)
             },
             //if a key is being pressed
-            keyPressed: function() {
+            keyPressed: function () {
               this.val.setBool(keyIsPressed)
             },
             //array with boolean for each key if pressed or not
-            keyPressArray: function() {
+            keyPressArray: function () {
               this.val.setArray(
-                keys.map(function(el) {
+                keys.map(function (el) {
                   //create bool values
                   return Value.createValue(el, types.BOOL)
                 })
               )
             },
             //returns if the key with given id is pressed
-            keyIdPressStatus: function() {
+            keyIdPressStatus: function () {
               this.val.setBool(keys[this.argVal(0, types.NUM)])
             },
             //amount of pressed keys
-            keyPressedAmount: function() {
+            keyPressedAmount: function () {
               //return value of env counter
               this.val.setNum(keyPressAmount)
-            }
-          }
+            },
+          },
         },
         //runArgs input OK
         runArgs: {
           //run-arguments given to program OK
-          runArgs: function() {
+          runArgs: function () {
             //return as array of strings
             this.val.setArray(
-              runArgs.map(function(arg) {
+              runArgs.map(function (arg) {
                 //make a new string value
                 return Value.createValue(arg, types.STRING)
               })
             )
           },
           //if any run args were passed OK
-          runArgsPresent: function() {
+          runArgsPresent: function () {
             this.val.setBool(runArgs.length > 0)
           },
           //amount of run args present OK
-          runArgsAmount: function() {
+          runArgsAmount: function () {
             this.val.setNum(runArgs.length)
           },
           //returns the run args as a bool array OK
-          runArgsBoolArray: function() {
+          runArgsBoolArray: function () {
             this.val.setArray(
-              runArgs.map(function(arg) {
+              runArgs.map(function (arg) {
                 //make a new bool value
                 return Value.createValue(arg, types.STRING).castInto(types.BOOL)
               })
             )
           },
           //returns the run args as a number array OK
-          runArgsNumArray: function() {
+          runArgsNumArray: function () {
             this.val.setArray(
-              runArgs.map(function(arg) {
+              runArgs.map(function (arg) {
                 //make a new num value
                 return Value.createValue(arg, types.STRING).castInto(types.NUM)
               })
             )
-          }
+          },
         },
         //env data sources OK
         data: {
           //millis since start of environment OK
-          millis: function() {
+          millis: function () {
             this.val.setNum(millis())
           },
           //millis since start of this program OK
-          programTime: function() {
+          programTime: function () {
             this.val.setNum(millis() - programTimer)
-          }
+          },
           //further data sources here, if they can be acquired in some way (KA prohibits this mostly though)
         },
         //gets time data OK
         timeData: {
           //current second OK
-          second: function() {
+          second: function () {
             this.val.setNum(second())
           },
           //current minute OK
-          minute: function() {
+          minute: function () {
             this.val.setNum(minute())
           },
           //current hour OK
-          hour: function() {
+          hour: function () {
             this.val.setNum(hour())
-          }
+          },
         },
         //gets date data OK
         dateData: {
           //current day in month OK
-          day: function() {
+          day: function () {
             this.val.setNum(day())
           },
           //current month in year OK
-          month: function() {
+          month: function () {
             this.val.setNum(month())
           },
           //current year OK
-          year: function() {
+          year: function () {
             this.val.setNum(year())
           },
           //unix time in millis OK
-          unixTimeMillis: function() {
+          unixTimeMillis: function () {
             this.val.setNum(Date.now())
           },
           //unix time in seconds OK
-          unixTime: function() {
+          unixTime: function () {
             this.val.setNum(Math.floor(Date.now() / 1000))
-          }
-        }
-      }
+          },
+        },
+      },
     },
     //reflection enables element and packages level access OK
     reflect: {
       //can access packages OK
       packages: {
         //gets number of installed execs OK
-        execAmount: function() {
+        execAmount: function () {
           this.val.setNum(packages.amount)
         },
         //get list of all installed execs OK
-        allExecs: function() {
+        allExecs: function () {
           //get all keys of elementFunctions
           this.val.setArray(
-            Object.keys(packages.elementFunctions).map(function(name) {
+            Object.keys(packages.elementFunctions).map(function (name) {
               //convert to string value
               return Value.createValue(name, types.STRING)
             })
           )
         },
         //checks if a particular exec function exists OK
-        execExists: function() {
+        execExists: function () {
           //check if has property
           this.val.setBool(
             packages.elementFunctions.hasOwnProperty(
               this.argVal(0, types.STRING)
             )
           )
-        }
+        },
       },
       //accesses element OK
       element: {
         //get number of arguments passed to this element, can't really think of a case where this could be useful OK
-        argNum: function() {
+        argNum: function () {
           this.val.setNum(this.args.length)
         },
         //gets full code of itself OK
-        fullCode: function() {
+        fullCode: function () {
           this.val.setString(this.fullCode)
         },
         //returns a string array of the full code of all given arguments OK
-        fullCodeArray: function() {
+        fullCodeArray: function () {
           this.val.setArray(
-            this.args.map(function(arg) {
+            this.args.map(function (arg) {
               //get full code and put in string value object
               return Value.createValue(arg.fullCode, types.STRING)
             })
           )
         },
         //returns the length of the full code of this element OK
-        fullCodeLength: function() {
+        fullCodeLength: function () {
           this.val.setNum(this.fullCode.length)
-        }
-      }
+        },
+      },
     },
     //does all kinds of math (also other things concerning numbers)
     math: {
       //performs arithmetics
       arithmetic: {
         //sum of two numbers
-        add: function() {
+        add: function () {
           this.val.setNum(this.argVal(0, types.NUM) + this.argVal(1, types.NUM))
         },
         //difference between two numbers
-        sub: function() {
+        sub: function () {
           this.val.setNum(this.argVal(0, types.NUM) - this.argVal(1, types.NUM))
         },
         //product of two numbers
-        mult: function() {
+        mult: function () {
           this.val.setNum(this.argVal(0, types.NUM) * this.argVal(1, types.NUM))
         },
         //quotient of two numbers
-        div: function() {
+        div: function () {
           //to make sure last one isn't 0
           let d = this.argVal(1, types.NUM)
           this.val.setNum(d === 0 ? 0 : this.argVal(0, types.NUM) / d)
         },
         //modulus of two numbers
-        mod: function() {
+        mod: function () {
           //to make sure last one isn't 0
           let d = this.argVal(1, types.NUM)
           this.val.setNum(d === 0 ? 0 : this.argVal(0, types.NUM) % d)
         },
         //increments a number
-        incr: function() {
+        incr: function () {
           this.val.setNum(this.argVal(0, types.NUM) + 1)
         },
         //decrements a number
-        decr: function() {
+        decr: function () {
           this.val.setNum(this.argVal(0, types.NUM) - 1)
         },
         //unary negation
-        negate: function() {
+        negate: function () {
           this.val.setNum(-this.argVal(0, types.NUM))
-        }
+        },
       },
       //bitwise operators
       bitwise: {
         //performs a left shift
-        leftShift: function() {
+        leftShift: function () {
           this.val.setNum(
             this.argVal(0, types.NUM) << floor(this.argVal(1, types.NUM))
           )
         },
         //performs a right shift
-        rightShift: function() {
+        rightShift: function () {
           this.val.setNum(
             this.argVal(0, types.NUM) >> floor(this.argVal(1, types.NUM))
           )
         },
         //performs an unsigned right shift (zerofill)
-        unsigRightShift: function() {
+        unsigRightShift: function () {
           this.val.setNum(
             this.argVal(0, types.NUM) >>> floor(this.argVal(1, types.NUM))
           )
         },
         //converts into an unsigned 32bit into by doing a >>>0
-        to32Int: function() {
+        to32Int: function () {
           this.val.setNum(this.argVal(0, types.NUM) >>> 0)
         },
         //bitwise AND
-        bitAnd: function() {
+        bitAnd: function () {
           this.val.setNum(this.argVal(0, types.NUM) & this.argVal(1, types.NUM))
         },
         //bitwise OR
-        bitOr: function() {
+        bitOr: function () {
           this.val.setNum(this.argVal(0, types.NUM) | this.argVal(1, types.NUM))
         },
         //bitwise XOR
-        bitXor: function() {
+        bitXor: function () {
           this.val.setNum(this.argVal(0, types.NUM) ^ this.argVal(1, types.NUM))
         },
         //bitwise NOT (inversion)
-        bitNot: function() {
+        bitNot: function () {
           this.val.setNum(~this.argVal(0, types.NUM))
         },
         //bitwise NOR
-        bitNor: function() {
+        bitNor: function () {
           this.val.setNum(
             ~(this.argVal(0, types.NUM) | this.argVal(1, types.NUM))
           )
         },
         //bitwise NAND
-        bitNand: function() {
+        bitNand: function () {
           this.val.setNum(
             ~(this.argVal(0, types.NUM) & this.argVal(1, types.NUM))
           )
         },
         //bitwise XNOR
-        bitXnor: function() {
+        bitXnor: function () {
           this.val.setNum(
             ~(this.argVal(0, types.NUM) ^ this.argVal(1, types.NUM))
           )
-        }
+        },
       },
       //more complicated math (great name, I know...)
       higher: {
         //exponentiation
-        pow: function() {
+        pow: function () {
           this.val.setNum(
             Math.pow(this.argVal(0, types.NUM), this.argVal(1, types.NUM))
           )
         },
         //base logarithm
-        logBase: function() {
+        logBase: function () {
           this.val.setNum(
             Math.log(Math.abs(this.argVal(0, types.NUM))) /
               Math.log(Math.abs(this.argVal(1, types.NUM)))
           )
         },
         //natural base-e logarithm
-        logNat: function() {
+        logNat: function () {
           this.val.setNum(Math.log(Math.abs(this.argVal(0, types.NUM))))
         },
         //base 10 logarithm
-        log10: function() {
+        log10: function () {
           this.val.setNum(Math.log10(Math.abs(this.argVal(0, types.NUM))))
         },
         //binary base 2 logarithm
-        log2: function() {
+        log2: function () {
           this.val.setNum(Math.log2(Math.abs(this.argVal(0, types.NUM))))
         },
         //raises e to the n
-        exp: function() {
+        exp: function () {
           this.val.setNum(Math.exp(this.argVal(0, types.NUM)))
         },
         //the square
-        sq: function() {
+        sq: function () {
           this.val.setNum(Math.sq(this.argVal(0, types.NUM)))
         },
         //the cube
-        cubed: function() {
+        cubed: function () {
           this.val.setNum(Math.pow(this.argVal(0, types.NUM), 3))
         },
         //the square root
-        sqrt: function() {
+        sqrt: function () {
           this.val.setNum(Math.sqrt(this.argVal(0, types.NUM)))
         },
         //the cubic root
-        cubeRoot: function() {
+        cubeRoot: function () {
           this.val.setNum(Math.cbrt(this.argVal(0, types.NUM)))
         },
         //absolute value
-        abs: function() {
+        abs: function () {
           this.val.setNum(Math.abs(this.argVal(0, types.NUM)))
         },
         //does clz32
-        clz32: function() {
+        clz32: function () {
           this.val.setNum(Math.clz32(this.argVal(0, types.NUM)))
         },
         //calculates the euclidean diagonal distance of a n-dimensional coordinate set
-        hypot: function() {
+        hypot: function () {
           //apply-call with args mapped to numbers
           this.val.setNum(
             Math.hypot.apply(
               this,
-              this.args.map(function(arg) {
+              this.args.map(function (arg) {
                 //make number
                 return this.argVal(0, types.NUM)
               })
@@ -1765,56 +1766,56 @@ let sul = {
           )
         },
         //C-like 32-bit multiplication
-        imul: function() {
+        imul: function () {
           this.val.setNum(
             Math.imul(this.argVal(0, types.NUM), this.argVal(1, types.NUM))
           )
         },
         //sign function
-        signum: function() {
+        signum: function () {
           this.val.setNum(Math.sign(this.argVal(0, types.NUM)))
         },
         //natural logarithm plus one
-        log1p: function() {
+        log1p: function () {
           this.val.setNum(Math.log1p(this.argVal(0, types.NUM)))
-        }
+        },
       },
       //does different form of bounding
       bound: {
         //floors a value in the direction of 0
-        floor: function() {
+        floor: function () {
           this.val.setNum(Math.floor(this.argVal(0, types.NUM)))
         },
         //floors a value away from 0
-        ceil: function() {
+        ceil: function () {
           this.val.setNum(Math.ceil(this.argVal(0, types.NUM)))
         },
         //rounds a value
-        round: function() {
+        round: function () {
           this.val.setNum(Math.round(this.argVal(0, types.NUM)))
         },
         //simply removes the decimal part
-        truncate: function() {
+        truncate: function () {
           this.val.setNum(Math.trunc(this.argVal(0, types.NUM)))
         },
         //rounds a value to the nearest single-precision float value
-        fround: function() {
+        fround: function () {
           this.val.setNum(Math.fround(this.argVal(0, types.NUM)))
         },
         //gives the higher of two numbers
-        max: function() {
+        max: function () {
           this.val.setNum(
             Math.max(this.argVal(0, types.NUM), this.argVal(1, types.NUM))
           )
         },
         //gives the lower of two numbers
-        min: function() {
+        min: function () {
           this.val.setNum(
             Math.min(this.argVal(0, types.NUM), this.argVal(1, types.NUM))
           )
         },
         //constrains a value within two bounds
-        constrain: function() {
+        constrain: function () {
           this.val.setNum(
             constrain(
               this.argVal(0, types.NUM),
@@ -1822,258 +1823,258 @@ let sul = {
               this.argVal(2, types.NUM)
             )
           )
-        }
+        },
       },
       //several mathematical contants
       const: {
         //pi
-        pi: function() {
+        pi: function () {
           this.val.setNum(Math.PI)
         },
         //tau
-        tau: function() {
+        tau: function () {
           this.val.setNum(2 * Math.PI)
         },
         //two pi is the same as tau
-        twoPi: function() {
+        twoPi: function () {
           this.val.setNum(2 * Math.PI)
         },
         //e
-        e: function() {
+        e: function () {
           this.val.setNum(Math.E)
         },
         //natural logarithm of 10
-        ln10: function() {
+        ln10: function () {
           this.val.setNum(Math.LN10)
         },
         //natural logarithm of 2
-        ln2: function() {
+        ln2: function () {
           this.val.setNum(Math.LN2)
         },
         //base-10 logarithm of e
-        log10e: function() {
+        log10e: function () {
           this.val.setNum(Math.LOG10E)
         },
         //base-2 logarithm of e
-        log2e: function() {
+        log2e: function () {
           this.val.setNum(Math.LOG2E)
         },
         //square root of a half
-        sqrtHalf: function() {
+        sqrtHalf: function () {
           this.val.setNum(Math.SQRT1_2)
         },
         //square root of two
-        sqrt2: function() {
+        sqrt2: function () {
           this.val.setNum(Math.SQRT2)
-        }
+        },
       },
       //compares values
       compare: {
         //checks that all values are the same
-        allEqual: function() {
+        allEqual: function () {
           //get the first value
           let first = this.argEval(0)
 
           //for all other values
           this.val.setBool(
-            this.args.every(function(arg, index) {
+            this.args.every(function (arg, index) {
               //return is they are the same value
               return first.equals(this.argVal(index)) || !index
             })
           )
         },
         //converting equality (type insensitive)
-        equal: function() {
+        equal: function () {
           this.val.setBool(this.argEval(0).equals(this.argEval(1)))
         },
         //strict equality (type sensitive)
-        strictEqual: function() {
+        strictEqual: function () {
           this.val.setBool(this.argEval(0).strcitEquals(this.argEval(1)))
         },
         //greater than
-        greater: function() {
+        greater: function () {
           this.val.setBool(
             this.argVal(0, types.NUM) > this.argVal(1, types.NUM)
           )
         },
         //less than
-        less: function() {
+        less: function () {
           this.val.setBool(
             this.argVal(0, types.NUM) < this.argVal(1, types.NUM)
           )
         },
         //greater than or equal
-        greaterEqual: function() {
+        greaterEqual: function () {
           this.val.setBool(
             this.argVal(0, types.NUM) >= this.argVal(1, types.NUM)
           )
         },
         //less than or equal
-        lessEqual: function() {
+        lessEqual: function () {
           this.val.setBool(
             this.argVal(0, types.NUM) <= this.argVal(1, types.NUM)
           )
         },
         //true if signs are equal
-        signEqual: function() {
+        signEqual: function () {
           this.val.setBool(
             Math.sign(this.argVal(0, types.NUM)) ===
               Math.sign(this.argVal(1, types.NUM))
           )
-        }
+        },
       },
       //logic operators
       logic: {
         //and
-        and: function() {
+        and: function () {
           this.val.setBool(
             this.argVal(0, types.BOOL) && this.argVal(1, types.BOOL)
           )
         },
         //or
-        or: function() {
+        or: function () {
           this.val.setBool(
             this.argVal(0, types.BOOL) || this.argVal(1, types.BOOL)
           )
         },
         //xor
-        xor: function() {
+        xor: function () {
           this.val.setBool(
             this.argVal(0, types.BOOL) !== this.argVal(1, types.BOOL)
           )
         },
         //not
-        not: function() {
+        not: function () {
           this.val.setBool(!this.argVal(0, types.BOOL))
         },
         //nand
-        nand: function() {
+        nand: function () {
           this.val.setBool(
             !(this.argVal(0, types.BOOL) && this.argVal(1, types.BOOL))
           )
         },
         //xnor
-        xnor: function() {
+        xnor: function () {
           this.val.setBool(
             this.argVal(0, types.BOOL) === this.argVal(1, types.BOOL)
           )
         },
         //nor
-        nor: function() {
+        nor: function () {
           this.val.setBool(
             !(this.argVal(0, types.BOOL) || this.argVal(1, types.BOOL))
           )
         },
         //checks that all boolean values are true
-        allTrue: function() {
+        allTrue: function () {
           this.val.setBool(
-            this.args.every(function(arg, index) {
+            this.args.every(function (arg, index) {
               //return bool value
               return this.argVal(index, types.BOOL)
             })
           )
         },
         //checks that all boolean values are false
-        allFalse: function() {
+        allFalse: function () {
           this.val.setBool(
-            this.args.every(function(arg, index) {
+            this.args.every(function (arg, index) {
               //return bool value
               return !this.argVal(index, types.BOOL)
             })
           )
         },
         //checks that all boolean values are the same
-        allBoolEqual: function() {
+        allBoolEqual: function () {
           //get the first value
           let first = this.argVal(0, types.BOOL)
 
           //for all other values
           this.val.setBool(
-            this.args.every(function(arg, index) {
+            this.args.every(function (arg, index) {
               //return bool value
               return this.argVal(index, types.BOOL) === first || !index
             })
           )
-        }
-      }
+        },
+      },
     },
     //variables OK
     var: {
       //assignment operators OK
       assign: {
         //increments OK
-        incrVar: function() {
+        incrVar: function () {
           this.val = variables.changeNumVar(
             this.argVal(0, types.STRING),
-            function(a, b) {
+            function (a, b) {
               return a + b
             },
             1
           )
         },
         //decrements OK
-        decrVar: function() {
+        decrVar: function () {
           this.val = variables.changeNumVar(
             this.argVal(0, types.STRING),
-            function(a, b) {
+            function (a, b) {
               return a - b
             },
             1
           )
         },
         //adds to variable OK
-        addVar: function() {
+        addVar: function () {
           this.val = variables.changeNumVar(
             this.argVal(0, types.STRING),
-            function(a, b) {
+            function (a, b) {
               return a + b
             },
             this.argVal(1, types.NUM)
           )
         },
         //subtracts from variable OK
-        subVar: function() {
+        subVar: function () {
           this.val = variables.changeNumVar(
             this.argVal(0, types.STRING),
-            function(a, b) {
+            function (a, b) {
               return a - b
             },
             this.argVal(1, types.NUM)
           )
         },
         //multiplies variable OK
-        multVar: function() {
+        multVar: function () {
           this.val = variables.changeNumVar(
             this.argVal(0, types.STRING),
-            function(a, b) {
+            function (a, b) {
               return a * b
             },
             this.argVal(1, types.NUM)
           )
         },
         //divides variable OK
-        divVar: function() {
+        divVar: function () {
           this.val = variables.changeNumVar(
             this.argVal(0, types.STRING),
-            function(a, b) {
+            function (a, b) {
               return a / b
             },
             this.argVal(1, types.NUM)
           )
         },
         //modulus/remainder assignment OK
-        modVar: function() {
+        modVar: function () {
           this.val = variables.changeNumVar(
             this.argVal(0, types.STRING),
-            function(a, b) {
+            function (a, b) {
               return a % b
             },
             this.argVal(1, types.NUM)
           )
-        }
+        },
       },
       //sets a variable OK
-      setVar: function() {
+      setVar: function () {
         //set with given key string
         this.val = variables.setVar(
           this.argEval(1),
@@ -2081,7 +2082,7 @@ let sul = {
         )
       },
       //gets a variable OK
-      getVar: function() {
+      getVar: function () {
         //get var name string
         let varVal = variables.getVar(false, this.argVal(0, types.STRING))
 
@@ -2096,22 +2097,22 @@ let sul = {
         }
       },
       //checks if a variable exists OK
-      checkVar: function() {
+      checkVar: function () {
         this.val.setBool(
           variables.vars.hasOwnProperty(this.argVal(0, types.STRING))
         )
       },
       //gets a list of all variable names OK
-      varNameList: function() {
+      varNameList: function () {
         this.val.setArray(
-          Object.keys(variables.vars).map(function(name) {
+          Object.keys(variables.vars).map(function (name) {
             //return key value with name
             return Value.createValue(name, types.STRING)
           })
         )
       },
       //array of all variable values OK
-      allVars: function() {
+      allVars: function () {
         //new array to put vars in
         let asArray = []
 
@@ -2125,13 +2126,13 @@ let sul = {
         this.val.setArray(asArray)
       },
       //array of keys and values alternating OK
-      allVarsNameVal: function() {
+      allVarsNameVal: function () {
         //get keys
         let names = Object.keys(variables.vars)
 
         //interlace
         this.val.setArray(
-          names.reduce(function(all, name) {
+          names.reduce(function (all, name) {
             //push name
             all.push(Value.createValue(name, types.STRING))
 
@@ -2144,21 +2145,21 @@ let sul = {
         )
       },
       //number of variables OK
-      varAmount: function() {
+      varAmount: function () {
         this.val.setNum(variables.amount)
       },
       //removes a variable OK
-      deleteVar: function() {
+      deleteVar: function () {
         //delete and return name
         this.val.setString(variables.deleteVar(this.argVal(0, types.STRING)))
-      }
+      },
     },
     //functions and params OK
     func: {
       //calls a function with parameters OK
-      do: function() {
+      do: function () {
         //get other arg values, without first
-        this.params = this.args.slice(1).map(function(arg, index) {
+        this.params = this.args.slice(1).map(function (arg, index) {
           return this.argEval(1 + index)
         }, this)
         //call with new params by casting to clock and executing then
@@ -2167,7 +2168,7 @@ let sul = {
       //use and manipulate parameters OK
       param: {
         //gets a parameter with a index OK
-        getParam: function() {
+        getParam: function () {
           //get index
           let index = Math.floor(Math.abs(this.argVal(0, types.NUM)))
 
@@ -2178,13 +2179,13 @@ let sul = {
           }
         },
         //checks if a param exists OK
-        checkParam: function() {
+        checkParam: function () {
           this.val.setBool(
             this.params.length > Math.floor(Math.abs(this.argVal(0, types.NUM)))
           )
         },
         //sets a param if available OK
-        setParam: function() {
+        setParam: function () {
           //get index
           let index = Math.floor(Math.abs(this.argVal(0, types.NUM)))
 
@@ -2201,31 +2202,27 @@ let sul = {
           }
         },
         //gets all parameters as an array OK
-        allParams: function() {
+        allParams: function () {
           this.val.setArray(this.params)
         },
         //amount of params available OK
-        paramAmount: function() {
+        paramAmount: function () {
           this.val.setNum(this.params.length)
-        }
-      }
+        },
+      },
     },
     //string manipulation
     string: {
       //length of string
-      strLength: function() {
+      strLength: function () {
         this.val.setNum(this.argVal(0, types.STRING).length)
       },
       //from char array
-      fromCharArray: function() {
-        this.val.setString(
-          this.argEval(0)
-            .toStringArray()
-            .join("")
-        )
+      fromCharArray: function () {
+        this.val.setString(this.argEval(0).toStringArray().join(""))
       },
       //to char array
-      toCharArray: function() {
+      toCharArray: function () {
         this.val.setArray(
           Value.createValue(
             this.argVal(0, types.STRING).split(),
@@ -2234,41 +2231,41 @@ let sul = {
         )
       },
       //char to char code
-      charCode: function() {
+      charCode: function () {
         this.val.setNum(this.argVal(0, types.STRING).charCodeAt(0))
       },
       //char code at in string
-      charCodeAt: function() {
+      charCodeAt: function () {
         this.val.setNum(
           this.argVal(0, types.STRING).charCodeAt(this.argVal(1, types.NUM))
         )
       },
       //charAt
-      charAt: function() {
+      charAt: function () {
         this.val.setString(
           this.argVal(0, types.STRING).charAt(this.argVal(1, types.NUM))
         )
       },
       //first char
-      firstChar: function() {
+      firstChar: function () {
         this.val.setString(this.argVal(0, types.STRING).charAt(0))
       },
       //adds to strings together
-      strConcat: function() {
+      strConcat: function () {
         this.val.setString(
           this.argVal(0, types.STRING) + this.argVal(1, types.STRING)
         )
       },
       //adds all strings given together
-      strConcatAll: function() {
+      strConcatAll: function () {
         this.val.setString(
-          this.args.reduce(function(added, current, index) {
+          this.args.reduce(function (added, current, index) {
             return added + this.argVal(index, types.STRING)
           })
         )
       },
       //searches a string
-      strIncludes: function() {
+      strIncludes: function () {
         this.val.setString(
           this.argVal(0, types.STRING).includes(
             this.argVal(1, types.STRING),
@@ -2277,7 +2274,7 @@ let sul = {
         )
       },
       //searches at the end of a string
-      endsWith: function() {
+      endsWith: function () {
         let str = this.argVal(0, types.STRING)
         this.val.setString(
           str.endsWith(
@@ -2287,7 +2284,7 @@ let sul = {
         )
       },
       //finds a string in another one
-      strIndexOf: function() {
+      strIndexOf: function () {
         this.val.setNum(
           this.argVal(0, types.STRING).indexOf(
             this.argVal(1, types.STRING),
@@ -2296,7 +2293,7 @@ let sul = {
         )
       },
       //finds a string in another one
-      lastIndexOf: function() {
+      lastIndexOf: function () {
         this.val.setNum(
           this.argVal(0, types.STRING).lastIndexOf(
             this.argVal(1, types.STRING),
@@ -2305,7 +2302,7 @@ let sul = {
         )
       },
       //matches against a regexp
-      match: function() {
+      match: function () {
         this.val.setArray(
           Value.createValue(
             this.argVal(0, types.STRING).match(this.argVal(1, types.STRING)),
@@ -2314,13 +2311,13 @@ let sul = {
         )
       },
       //repeats a string a given number of times
-      strRepeat: function() {
+      strRepeat: function () {
         this.val.setString(
           this.argVal(0, types.STRING).repeat(this.argVal(1, types.NUM))
         )
       },
       //replaces a substring with another one
-      strReplace: function() {
+      strReplace: function () {
         this.val.setString(
           this.argVal(0, types.STRING).replace(
             this.argVal(1, types.STRING),
@@ -2329,13 +2326,13 @@ let sul = {
         )
       },
       //seraches for a regexp
-      searchString: function() {
+      searchString: function () {
         this.val.setNum(
           this.argVal(0, types.STRING).search(this.argVal(1, types.STRING))
         )
       },
       //returns an extracted substring
-      strSlice: function() {
+      strSlice: function () {
         let str = this.argVal(0, types.STRING)
         this.val.setNum(
           str.splice(
@@ -2345,7 +2342,7 @@ let sul = {
         )
       },
       //splits string on seperators, use toCharArray when not using a seperator
-      split: function() {
+      split: function () {
         this.val.setArray(
           Value.createValue(
             this.argVal(0, types.STRING).split(
@@ -2357,7 +2354,7 @@ let sul = {
         )
       },
       //searches at the beginning of a string
-      startsWith: function() {
+      startsWith: function () {
         this.val.setString(
           this.argVal(0, types.STRING).startsWith(
             this.argVal(1, types.STRING),
@@ -2366,7 +2363,7 @@ let sul = {
         )
       },
       //returns a substring using a position and amount of chars to extract
-      substrAmount: function() {
+      substrAmount: function () {
         let str = this.argVal(0, types.STRING)
         this.val.setString(
           str.substr(
@@ -2376,7 +2373,7 @@ let sul = {
         )
       },
       //returns a substring using a position and second position
-      substrEnd: function() {
+      substrEnd: function () {
         let str = this.argVal(0, types.STRING)
         this.val.setString(
           str.substring(
@@ -2386,26 +2383,26 @@ let sul = {
         )
       },
       //converts a string to lower case
-      toLowerCase: function() {
+      toLowerCase: function () {
         this.val.setNum(this.argVal(0, types.STRING).toLowerCase())
       },
       //converts a string to upper case
-      toUpperCase: function() {
+      toUpperCase: function () {
         this.val.setNum(this.argVal(0, types.STRING).toUpperCase())
       },
       //removes whitespace from ends
-      trim: function() {
+      trim: function () {
         this.val.setNum(this.argVal(0, types.STRING).trim())
-      }
+      },
     },
     //array manipulation and higher-order functions for use on them (WIP)
     array: {
       //length of array
-      arrLength: function() {
+      arrLength: function () {
         this.val.setNum(this.argVal(0, types.ARRAY).length)
       },
       //gets value at given index
-      valAt: function() {
+      valAt: function () {
         let index = Math.floor(Math.abs(this.argVal(1, types.NUM)))
         let arr = this.argVal(0, types.ARRAY)
         if (arr.length > index) {
@@ -2413,54 +2410,54 @@ let sul = {
         } //null by default
       },
       //gets the last value
-      last: function() {
+      last: function () {
         let arr = this.argVal(0, types.ARRAY)
         if (arr.length) {
           this.val = arr[arr.length - 1]
         }
       },
       //gets the first value
-      first: function() {
+      first: function () {
         let arr = this.argVal(0, types.ARRAY)
         if (arr.length) {
           this.val = arr[0]
         }
       },
       //concatenates two arrays
-      concat: function() {
+      concat: function () {
         this.setArray(
           this.argVal(0, types.ARRAY).concat(this.argVal(1, types.ARRAY))
         )
-      }
-    }
+      },
+    },
   },
   //extended math
   extMath: {
     //gives information on numbers
     numInfo: {
       //checks wether an number is even
-      isEven: function() {
+      isEven: function () {
         this.val.setBool(
           Math.floor(Math.abs(this.argVal(0, types.NUM))) % 2 === 0
         )
       },
       //checks wether an number is odd
-      isOdd: function() {
+      isOdd: function () {
         this.val.setBool(
           Math.floor(Math.abs(this.argVal(0, types.NUM))) % 2 === 1
         )
       },
       //checks wether an number is a multiple of another
-      isMultiple: function() {
+      isMultiple: function () {
         this.val.setBool(
           Math.abs(this.argVal(0, types.NUM)) %
             Math.abs(this.argVal(1, types.NUM)) ===
             0
         )
-      }
+      },
     },
     //calculates the gcd of two numbers
-    gcd: function() {
+    gcd: function () {
       this.val.setNum(
         gcd(
           Math.floor(this.argVal(0, types.NUM)),
@@ -2469,7 +2466,7 @@ let sul = {
       )
     },
     //calculates the lcm of two numbers
-    lcm: function() {
+    lcm: function () {
       this.val.setNum(
         lcm(
           Math.floor(this.argVal(0, types.NUM)),
@@ -2478,26 +2475,26 @@ let sul = {
       )
     },
     //sum of all args
-    sum: function() {
+    sum: function () {
       //set to reduced sum
       this.val.setNum(
-        this.args.reduce(function(sum, arg, index) {
+        this.args.reduce(function (sum, arg, index) {
           //add num value of this arg
           return this.argVal(index, types.NUM) + sum
         }, 0)
       )
     },
     //product of all args
-    product: function() {
+    product: function () {
       //set to reduced product
       this.val.setNum(
-        this.args.reduce(function(product, arg, index) {
+        this.args.reduce(function (product, arg, index) {
           //multiply current arg num value to product
           return this.argVal(index, types.NUM) * product
         }, 0)
       )
-    }
-  }
+    },
+  },
 }
 
 //--run--
@@ -2539,7 +2536,7 @@ if (printOnCanvas) {
 }
 
 //draw loop
-let draw = function() {
+let draw = function () {
   //if canvas log enabled
   if (printOnCanvas) {
     //setup style
@@ -2561,11 +2558,11 @@ let draw = function() {
 }
 
 //key callbacks
-let keyPressed = function() {
+let keyPressed = function () {
   keys[key] = true
   keyPressAmount++
 }
-let keyReleased = function() {
+let keyReleased = function () {
   keys[key] = false
   keyPressAmount--
 }
