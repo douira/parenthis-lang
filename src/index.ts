@@ -1,4 +1,8 @@
+import { evalExpression } from "./lib/eval"
 import { parse } from "./lib/parser"
+
+//setup registry
+import "./parenthis/index"
 
 //AST parsing examples
 console.log(
@@ -34,5 +38,8 @@ console.log(
           'iteration Nr. ',
           (getVar, 'x')
         )
+      )
       )`)
 )
+
+console.log(evalExpression(parse(`(block)`)))

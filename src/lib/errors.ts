@@ -2,8 +2,8 @@
 //these functions produce the error messages
 const parseErrorBuilders = {
   expectedButFound: (expected: string, found: string) =>
-    `Expected ${expected} but found ${found}`,
-  invalidIdentifier: (found: string) => `Identifier ${found} is invalid`,
+    `Expected "${expected}" but found "${found}"`,
+  invalidIdentifier: (found: string) => `Identifier "${found}" is invalid`,
 }
 type parseErrorBuilders = typeof parseErrorBuilders
 type ParseErrorType = keyof parseErrorBuilders
@@ -11,9 +11,23 @@ type ParseErrorType = keyof parseErrorBuilders
 //runtime errors
 const runtimeErrorBuilders = {
   invalidType: (found: string) =>
-    `Received invalid value type ${found}. Some function is returning a bad value.`,
+    `Received invalid value type "${found}". Some function is returning a bad value.`,
   invalidObject: (keys: string[]) =>
-    `Received invalid object type with keys ${keys.join(",")} that isn't a block or func.`
+    `Received invalid object type with keys ${keys.join(
+      ","
+    )} that isn't a block or func.`,
+  duplicateNamespace: (prop: string) =>
+    `Can't overwrite existing function or namespace "${prop}" with a namespace of the same name.`,
+  duplicateRegistration: (prop: string) =>
+    `Can't overwrite existing function or namepace "${prop}" with a function or namespace of the same name.`,
+  identifierNotRegistered: (segment: string, identifier: string[]) =>
+    `Identifier segment "${segment}" in identifier "${identifier.join(
+      "."
+    )}" not registered.`,
+  identifierTooLong: (segment: string, identifier: string[]) =>
+    `Identifier segment "${segment}" in identifier "${identifier.join(
+      "."
+    )}" is trying to treat a function as a namespace.`,
 }
 type runtimeErrorBuilders = typeof runtimeErrorBuilders
 type RuntimeErrorType = keyof runtimeErrorBuilders
@@ -79,9 +93,19 @@ for (const errorType in parseErrorBuilders) {
   const messageBuilder = parseErrorBuilders[_errorType]
   parseErrors[_errorType] = (lines, line, col, ...args) =>
     //@ts-expect-error we know these match since the wrapper is correctly constructed
-    new ParenthisError(messageBuilder(...args), _errorType, lines, line, col)
+    new ParseError(messageBuilder(...args), _errorType, lines, line, col)
 }
 
 export const runtimeErrors = {} as {
-  [K in RuntimeErrorType]: (...args: Parameters<runtimeErrorBuilders[K]>) => RuntimeError
+  [K in RuntimeErrorType]: (
+    ...args: Parameters<runtimeErrorBuilders[K]>
+  ) => RuntimeError
+}
+
+for (const errorType in runtimeErrorBuilders) {
+  const _errorType = errorType as RuntimeErrorType
+  //@ts-expect-error we know these match
+  runtimeErrors[_errorType] = (...args) =>
+    //@ts-expect-error this works because the arguments are defined to match
+    new RuntimeError(runtimeErrorBuilders[_errorType](...args), _errorType)
 }
