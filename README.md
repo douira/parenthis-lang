@@ -74,6 +74,8 @@ I have some ideas for a static type checking system but those aren't implemented
 
 By default all variables are declared using `setVar` and `getVar` which set variables in the first reachable scope. By default this will be the global scope. The function `createScope` creates a new scope which blocks calls to higher scopes using `setVar` and `getVar`. If the global variants `setVarGlobal` and `getVarGlobal` or are used the global boolean is set on `setVar` and `getVar` the global scope can be accessed again. Effectively, `scope` or anything similar creates a new variable map to use. The global variants skip checking or writing to any lower scope. Passing parameters to a function using `do` creates a new scope with numbered variables for each of the passed parameters. Writing to variables in a function call will use the function scope if not configured otherwise using global accessors.
 
+(TODO: scoping and variables in general not implemented in evaluation yet)
+
 ## Namespacing
 
 The built-in functions are in this default namespace `parenthis` which can be omitted. All others can either be merged upon import and used without prefixing their namespace or used with their namespace like this for example: `foo.bar.functionName` or `baz.otherFunction`. Using a namespace as a function is an error but a namespace can contain any mix of functions and nested namespaces. Namespaces are imported using `import` (see docs).
