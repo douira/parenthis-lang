@@ -1,16 +1,27 @@
-import { errors } from "./errors"
+import { parseErrors } from "./errors"
+import { Value } from "./types"
 
 //every program is an expression, see EBNF grammar of parenthis
-type Expression = Element | string
+export type Expression = Element | string
 
-//function call element has a name and a list of arguments (that may be empty)
-interface Element {
-  //list of the function's identifier segments (namespace path)
-  identifier: string[]
+export type Element =
+  //function call element has a name and a list of arguments (that may be empty)
+  | {
+      //list of the function's identifier segments (namespace path)
+      identifier: string[]
 
-  //list of argument expressions
-  args: Expression[]
-}
+      //list of argument expressions
+      args: Expression[]
+  }
+  
+  //value elements are special because they have another prop
+  | {
+      identifier: ["value"]
+      args: []
+
+      //optional return value for the special "value" element that's involved in type conversion
+      value: Value
+    }
 type Identifier = Element["identifier"]
 
 //list of individual regexes for the different tokens
@@ -105,7 +116,7 @@ export const parse = (str: string): Expression => {
   //throws an error when the given value is undefined
   const expectValue = <Type>(expected: string, value: Type | undefined) => {
     if (value == null) {
-      throw errors.expectedButFound(
+      throw parseErrors.expectedButFound(
         lines,
         line,
         col,
@@ -125,7 +136,7 @@ export const parse = (str: string): Expression => {
 
     //validate identifier structure
     if (!/^[a-z0-9]+(?:\.[a-z0-9]+)*$/i.test(match)) {
-      throw errors.invalidIdentifier(lines, line, col, match)
+      throw parseErrors.invalidIdentifier(lines, line, col, match)
     }
 
     //parse identifier segments
